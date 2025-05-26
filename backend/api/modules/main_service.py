@@ -20,6 +20,9 @@ from huggingface_hub import login
 
 
 class MainService:
+    """
+    Основной класс для генерации видео.
+    """
     def __init__(self):
         """
         Инициализация всех модулей генерации, авторизация в HuggingFace,
@@ -43,6 +46,17 @@ class MainService:
         - Подготовка промптов
         - Генерация видео и изображения
         - Апскейл, озвучка, субтитры и финальная сборка
+
+        Args:
+            letter: str - письмо.
+            speaker: str - выбор диктора. (bergholz, hmara, levitan, vysotskaya)
+            music_flag: bool - нужна ли музыка.
+            subtitles_flag: bool - нужны ли субтитры.
+            job_id: str - id задачи.
+
+        Returns:
+            dict[str, bool] - результат генерации.
+            
         """
         try:
             print('Старт обработки письма')
@@ -120,6 +134,13 @@ class MainService:
         """
         Распределяет общее время между сценами на основе их рейтинга динамики.
         Если рейтинг равен нулю — равномерное распределение.
+
+        Args:
+            prompts: dict[str, dict[str, str]] - словарь с промптами.
+            total_duration: int - общее время.
+
+        Returns:
+            dict[str, dict[str, str]] - словарь с промптами и длительностью кадров.
         """
         total_rating = sum(scene['dynamic_rating'] for scene in prompts.values())
         if total_rating == 0:
@@ -155,6 +176,16 @@ class MainService:
         """
         Объединяет сгенерированные видеофрагменты, добавляет музыку и субтитры,
         затем выполняет апскейл видео (RIFE) и экспорт финального результата.
+
+        Args:
+            total_prompts: dict[str, dict[str, str]] - словарь с конечными промптами.
+            job_id: str - id задачи.
+            music_flag: bool - нужна ли музыка.
+            subtitles_flag: bool - нужны ли субтитры.
+            subtitles: list[dict[str, str]] - субтитры.
+        
+        Returns:
+            Создание финального видео.
         """
         videos_dir = "generated_videos"
         output_path = f"video_{job_id}.mp4"
@@ -233,9 +264,12 @@ class MainService:
         """
         Добавляет субтитры в видео, используя временные интервалы.
 
-        Параметры:
+        Args:
             clip: Исходный видеоклип
             subtitles: Список субтитров [{start, end, text}]
+
+        Returns:
+            Создание субтитров.
         """
         subtitle_clips = []
         max_chars_per_line = 100  # Примерно 920 пикселей в ширину при font_size=24

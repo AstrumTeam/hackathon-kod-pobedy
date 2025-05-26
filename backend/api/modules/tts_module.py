@@ -36,6 +36,15 @@ class TTSModule:
             "hmara": "наша давняя маленькая спутница на ней нет атмосферы нет воды голый сухой каменный шар без блеска без дымки без облаков",
             "vysotskaya": "меня зовут ольга сергеевна высоцкая голос мой вы наверное не раз слышали по радио я диктор", 
             "bergholz" : "бедный ленинградский ломтик хлеба он почти не весит на руке для того чтобы жить в кольце блокады"}
+        self.spec_words = {"сталин": "ст+алин", "войны": "войн+ы", 
+                           "№": "номер", "органах": "+органах",
+                           "воины": "в+оины", "/I": " января",
+                            "/II": " февраля", "/III": " марта",
+                            "/IV": " апреля", "/V": " мая",
+                            "/VI": " июня", "/VII": " июля",
+                            "/VIII": " августа", "/IX": " сентября",
+                            "/X": " октября", "/XI": " ноября", "/XII": " декабря"}
+
 
     def init_model(self):
         """
@@ -61,9 +70,12 @@ class TTSModule:
         """
         print('Старт генерации аудио')
         start_time = time.time() 
+        text.replace("№", "номер")
         lemmas, wordforms = load()
         text = recover_yo_sure(text)
         text = accentuate(text, wordforms, lemmas)
+        for k, v in self.spec_words.items():
+            text = text.replace(k, v)
 
         self.f5tts.infer(
             ref_file=self.speakers[speaker],
