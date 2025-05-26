@@ -1,6 +1,6 @@
-# hackathon-kod-pobedy
+# Pobedaletters
 
-Код проекта Pobedaletters. Сайт: pobedaletters.ru
+Код проекта Pobedaletters. Сайт: https://pobedaletters.ru
 
 Осбенности проекта:
 
