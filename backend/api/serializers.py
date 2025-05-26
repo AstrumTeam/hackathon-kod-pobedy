@@ -12,7 +12,7 @@ class VideoGenerationSerializer(serializers.Serializer):
 
 class PublishVideoSerializer(serializers.Serializer):
     letter = serializers.CharField(min_length=100, max_length=3000, allow_blank=False, required=True)
-    autor = serializers.CharField(min_length=5, max_length=50, allow_blank=False, required=False)
+    author = serializers.CharField(min_length=5, max_length=50, allow_blank=False, required=False)
     job_id = serializers.UUIDField(required=True)
 
 

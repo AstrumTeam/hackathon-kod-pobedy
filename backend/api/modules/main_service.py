@@ -31,7 +31,7 @@ class MainService:
         self.musicModule = MusicModule()
 
     def generate_video(self, letter: str, speaker: str, music_flag: bool, subtitles_flag: bool, job_id: str):
-        try:
+        # try:
             print('Старт обработки письма')
             work_time = time.time()
             torch.cuda.empty_cache()
@@ -43,7 +43,7 @@ class MainService:
             if response['correct'] == False:
                 return {'success': False, 'message': "Письмо не прошло филтрацию"}
             
-            normalized_letter = self.llmModule.normalize_text(letter)
+            # normalized_letter = self.llmModule.normalize_text(letter)
 
 
             self.normModule.init_model()
@@ -98,12 +98,12 @@ class MainService:
             print(f"Общее время обработки письма: {time.time() - work_time:.1f} секунд")
             return {'success': True, 'message': "Готово"}
         
-        except Exception as e:
-            print(str(e))
-            torch.cuda.empty_cache()
-            return {'success': False, 'message': str(e)}
+        # except Exception as e:
+        #     print(str(e))
+        #     torch.cuda.empty_cache()
+        #     return {'success': False, 'message': str(e)}
     
-    def _distribute_duration_by_rating(self,prompts: dict, total_duration: int) -> dict:
+    def _distribute_duration_by_rating(self, prompts: dict, total_duration: int) -> dict:
         total_rating = sum(scene['dynamic_rating'] for scene in prompts.values())
         if total_rating == 0:
             equal_time = total_duration / len(prompts)
@@ -207,46 +207,6 @@ class MainService:
 
         torch.cuda.empty_cache()
         gc.collect()
-
-    # def _add_subtitles(self, clip, subtitles, font='api/font.ttf', font_size=24, color='white', stroke_color='black', stroke_width=1):
-    #     """
-    #     Метод для добавления субтитров на видео клип.
-
-    #     Аргументы:
-    #     clip - объект MoviePy VideoFileClip
-    #     subtitles - массив словарей, где каждый словарь содержит:
-    #         - "start": время старта субтитров в секундах
-    #         - "end": время окончания субтитров в секундах
-    #         - "text": текст субтитра
-    #     font - шрифт субтитров
-    #     font_size - размер шрифта
-    #     color - цвет текста
-    #     stroke_color - цвет обводки
-    #     stroke_width - толщина обводки
-
-    #     Возвращает:
-    #     Новый клип с наложенными субтитрами внизу.
-    #     """
-    #     subtitle_clips = []
-
-    #     for sub in subtitles:
-    #         print(sub)
-    #         txt_clip = (
-    #             TextClip(
-    #                 text=sub["text"], 
-    #                 font_size=font_size, 
-    #                 font=font, 
-    #                 color=color, 
-    #                 stroke_color=stroke_color, 
-    #                 stroke_width=stroke_width)
-    #             .with_position(("center", "bottom"))
-    #             .with_start(sub["start"])
-    #             .with_end(sub["end"])
-    #         )
-    #         subtitle_clips.append(txt_clip)
-
-    #     final = CompositeVideoClip([clip] + subtitle_clips)
-    #     return final
     
     def _add_subtitles(self, clip, subtitles, font='api/font.ttf', font_size=24, color='white', stroke_color='black', stroke_width=1):
         subtitle_clips = []

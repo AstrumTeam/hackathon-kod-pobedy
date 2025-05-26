@@ -7,7 +7,20 @@ from .f5_ckpt.stress import accentuate, load
 from .f5_ckpt.yoditor import recover_yo_sure
 
 class TTSModule:
+    """
+    Класс для генерации речи на основе модели F5TTS. 
+    Поддерживает выбор референсного голоса, акцентуацию текста и настройку скорости синтеза.
+    """
+    
     def __init__(self):
+        """
+        Инициализация параметров и файлов модели.
+        Устанавливаются:
+            - Название модели
+            - Устройство (GPU/CPU)
+            - Пути к контрольным точкам и словарям
+            - Список доступных дикторов с их аудиофайлами и референсными текстами
+        """
         self.model = "F5TTS_v1_Base"
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
         path = 'api/modules/'
@@ -25,10 +38,27 @@ class TTSModule:
             "bergholz" : "бедный ленинградский ломтик хлеба он почти не весит на руке для того чтобы жить в кольце блокады"}
 
     def init_model(self):
+        """
+        Загружает модель F5TTS с указанными параметрами.
+        Обязательно вызвать перед генерацией аудио.
+        """
         self.f5tts = F5TTS(ckpt_file=self.ckpt_file, vocab_file=self.vocab_file, device=self.device)
 
     def generate_tts(self, text, speaker, speed=1.0, output_filename="speech.wav"):
+        """
+        Генерация речи по заданному тексту и выбранному диктору.
 
+        Параметры:
+            text (str): Текст для синтеза речи.
+            speaker (str): Имя диктора (ключ из self.speakers).
+            speed (float): Скорость речи (по умолчанию 1.0).
+            output_filename (str): Имя выходного WAV-файла.
+
+        Выполняет:
+            - Предобработку текста (восстановление "ё", расстановка ударений)
+            - Запуск синтеза речи
+            - Сохранение аудиофайла
+        """
         print('Старт генерации аудио')
         start_time = time.time() 
         lemmas, wordforms = load()
