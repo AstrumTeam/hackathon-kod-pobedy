@@ -1,0 +1,175 @@
+.hi_text {
+    font-family: "PFDinTextCompPro", monospace;
+    font-weight: 500;
+    font-style: normal;
+    /* color: #76000d; */
+    color: #dcccba;
+    font-size: 30px;
+    width: 70%;
+    margin: 0 auto;
+    margin-top: 50px;
+}
+
+.content {
+    position: relative;
+    z-index: 1;
+    padding: 20px;
+    width: 50vw;
+    /* остальная часть слева */
+}
+
+.lazy-image {
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.lazy-image.loaded {
+  opacity: 1;
+}
+
+.hi_text_text {
+    margin-top: 10px;
+}
+
+.button {
+    background-color: #76000d;
+    color: #dcccba;
+    border: none;
+    padding: 10px 20px;
+    font-size: 35px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-family: "PFDinTextCompPro", monospace;
+    font-weight: 500;
+    font-style: normal;
+    height: 60px;
+    width: 300px;
+    transition: all 0.3s ease;
+}
+
+.button:hover {
+    background-color: #ccc;
+    color: #444;
+    filter: grayscale(100%) brightness(1.2);
+}
+
+.masonry-flex {
+    display: flex;
+    gap: 20px;
+    width: 90%;
+    margin: 0 auto;
+    padding-top: 40px;
+    flex-wrap: wrap;
+}
+
+.column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    min-width: 250px;
+}
+
+.column:first-child,
+.column:last-child {
+    margin-top: 40px;
+}
+
+.preview-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 30px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.preview-card img {
+    width: 100%;
+    display: block;
+    transition: all 0.3s ease;
+}
+
+.preview-card:hover img {
+    filter: grayscale(100%) brightness(1.2);
+    transform: scale(1.02);
+}
+
+.preview-caption {
+    padding: 10px;
+    font-size: 18px;
+    text-align: center;
+    color: #dcccba;
+    font-family: "PFDinTextCompPro", monospace;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba(118, 0, 13, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: all 0.3s ease;
+    pointer-events: none;
+}
+
+.preview-card:hover .overlay {
+    opacity: 1;
+}
+
+.overlay span {
+    font-size: 30px;
+    color: #fff;
+    font-weight: bold;
+    font-family: "PFDinTextCompPro", monospace;
+}
+
+@media (max-width: 1024px) {
+    .masonry-flex {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .column {
+        width: 100%;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+    }
+
+    .column .preview-card {
+        width: 45%;
+        max-width: 300px;
+    }
+}
+
+@media (max-width: 600px) {
+    .hi_text {
+        font-size: 25px;
+        width: 90%;
+    }
+
+    .column {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .column .preview-card {
+        width: 90%;
+        max-width: 100%;
+    }
+
+    .overlay span {
+        font-size: 18px;
+    }
+
+    .preview-caption {
+        font-size: 16px;
+    }
+}

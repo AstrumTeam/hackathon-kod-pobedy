@@ -1,0 +1,109 @@
+/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Overpass:ital,wght@0,100..900;1,100..900&display=swap');
+@font-face {
+    font-family: 'PFDinTextCompPro';
+    src: url('/assets/fonts/PFDinTextCompPro/PFDinTextCompPro-Medium_0.ttf') format('truetype');
+    font-weight: 500; /* или normal, если не уверен */
+    font-style: normal;
+}
+
+:root {
+  --plyr-color-main: #76000d; /* бордовый цвет вместо голубого */
+}
+
+body{
+    background-color: #171717;
+    /*background-color: #dcccba;*/
+    margin: 0;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+  }
+
+.header {
+  width: 100%;
+  height: 80px;
+  background-color: #76000d;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+}
+
+.left_header {
+  font-family: "PFDinTextCompPro", monospace;
+  font-weight: 600;
+  font-style: normal;
+  color: #dcccba;
+  font-size: 40px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.left_header:hover {
+  color: #171717;
+  filter: grayscale(20%) brightness(1.1);
+}
+
+
+.center_header {
+  flex: 1;
+  text-align: center;
+  min-width: 150px;
+}
+
+.right_header {
+  text-align: right;
+  display: flex;
+  min-width: 200px;
+}
+
+.support {
+  width: 200px;
+  height: 45px;
+  padding: 8px 16px;
+  font-family: "PFDinTextCompPro", monospace;
+  font-weight: 500;
+  font-size: 25px;
+  color: #dcccba;
+  background-color: #76000d;
+  border: 2px solid #dcccba;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.support:hover {
+  background-color: #dcccba;
+  color: #76000d;
+  filter: grayscale(20%) brightness(1.1);
+}
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+    height: 80px;
+  }
+
+  .left_header {
+    font-size: 40px;
+    padding-left: 0;
+  }
+
+  .support {
+    width: auto;
+    font-size: 20px;
+    height: 40px;
+    margin: 0 0 auto;
+    margin-top: -5px;
+  }
+}

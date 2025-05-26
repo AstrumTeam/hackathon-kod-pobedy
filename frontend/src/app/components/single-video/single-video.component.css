@@ -1,0 +1,69 @@
+.video-container {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 0 20px;
+  font-family: "PFDinTextCompPro", monospace;
+}
+
+/* Обёртка вокруг плеера */
+.plyr-wrapper {
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(118, 0, 13, 0.5);
+  background: #000;
+}
+
+/* Обёртка видео внутри plyr */
+.plyr--full-ui.plyr {
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+/* Контейнер для самого видео */
+.plyr__video-wrapper {
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.letter-section {
+  background-color: #1a1a1a;
+  border: 2px solid #76000d;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 8px 20px rgba(118, 0, 13, 0.5);
+}
+
+.generated_from{
+    font-size: 30px;
+    font-weight: 600;
+    color: #dcccba;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.letter-section h2 {
+  font-size: 30px;
+  margin-bottom: 15px;
+  color: #76000d;
+}
+
+.letter-text {
+  font-size: 26px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  color: #dcccba;
+}
+
+@media (max-width: 768px) {
+  .main-video {
+    border-radius: 12px;
+  }
+
+  .letter-section {
+    padding: 15px;
+  }
+
+  .letter-text {
+    font-size: 16px;
+  }
+}

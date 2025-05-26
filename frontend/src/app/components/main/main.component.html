@@ -1,0 +1,50 @@
+<div class="hi_text">
+  <div class="hi_text_text">
+    {{ 'HI_TEXT_1' | translate }}
+  </div>
+  <div class="hi_text_text">
+    {{ 'HI_TEXT_2' | translate }}
+  </div>
+  <div style="text-align: center; font-weight: 600;" class="hi_text_text">
+    {{ 'HI_TEXT_3' | translate }}
+  </div>
+</div>
+
+<div style="width: 100%; text-align: center; margin-top: 50px;">
+  <button (click)="goToCreate()" class="button">
+    {{ 'CREATE_VIDEO' | translate }}
+  </button>
+</div>
+
+<div class="hi_text" style="text-align: center; font-weight: 600; margin-top: 50px;">
+  {{ 'HI_TEXT_4' | translate }}
+</div>
+
+<div class="masonry-flex">
+  <div class="column">
+    <div class="preview-card" (click)="goToVideo(preview.id)" *ngFor="let preview of videosColumn1">
+      <img [src]="url + '/api/get_image/' + preview.id + '/'" loading="lazy" class="lazy-image" (load)="onImageLoad($event)"/>
+      <div class="overlay">
+        <span>{{ 'OPEN' | translate }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="column middle">
+    <div class="preview-card" (click)="goToVideo(preview.id)" *ngFor="let preview of videosColumn2">
+      <img [src]="url + '/api/get_image/' + preview.id + '/'" loading="lazy" class="lazy-image" (load)="onImageLoad($event)"/>
+      <div class="overlay">
+        <span>{{ 'OPEN' | translate }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="column">
+    <div class="preview-card" (click)="goToVideo(preview.id)" *ngFor="let preview of videosColumn3">
+      <img [src]="url + '/api/get_image/' + preview.id + '/'" loading="lazy" class="lazy-image" (load)="onImageLoad($event)"/>
+      <div class="overlay">
+        <span>{{ 'OPEN' | translate }}</span>
+      </div>
+    </div>
+  </div>
+</div>

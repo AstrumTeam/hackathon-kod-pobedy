@@ -1,0 +1,18 @@
+<div class="video-container">
+    <div class="plyr-wrapper">
+        <video id="player" class="plyr-video" playsinline controls>
+            <source [src]="url + '/api/get_video/' + videoId + '/'" type="video/mp4" />
+            Your browser does not support HTML5 video.
+        </video>
+    </div>
+
+    <div class="letter-text" style="margin-top: 10px;">Автор: {{video.author}}</div>
+
+    <div class="generated_from">{{ 'GENERATED_FROM' | translate }}</div>
+
+    <div class="letter-section">
+        <p class="letter-text">
+            {{ video.letter }}
+        </p>
+    </div>
+</div>

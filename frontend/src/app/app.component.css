@@ -1,0 +1,70 @@
+.custom-select-wrapper {
+  position: relative;
+  width: 120px;
+  font-family: "PFDinTextCompPro", monospace;
+  font-weight: 500;
+  font-size: 21px;
+  user-select: none;
+  outline: none;
+}
+
+.custom-select {
+  position: relative;
+  background-color: #76000d;
+  color: #dcccba;
+  padding: 8px 12px;
+  border: 2px solid #dcccba;
+  border-radius: 8px;
+  font-family: "PFDinTextCompPro", monospace;
+  font-size: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.custom-select:hover {
+  background-color: #dcccba;
+  color: #76000d;
+  border-color: #dcccba;
+}
+
+.arrow {
+  width: 0;
+  height: 0;
+  margin-left: 8px;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid #dcccba;
+  transition: transform 0.3s ease;
+}
+
+.custom-options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  margin: 4px 0 0 0;
+  padding: 0;
+  list-style: none;
+  background-color: #171717;
+  border: 2px solid #dcccba;
+  border-radius: 8px;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 10;
+}
+
+.custom-options li {
+  padding: 8px 12px;
+  cursor: pointer;
+  color: #dcccba;
+  font-family: "PFDinTextCompPro", monospace;
+  font-weight: 500;
+}
+
+.custom-options li:hover {
+  background-color: #76000d;
+  color: #dcccba;
+}

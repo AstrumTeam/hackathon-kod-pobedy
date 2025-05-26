@@ -1,0 +1,103 @@
+<!-- Письмо -->
+<div style="width: 100%;" *ngIf="page === 'letter'">
+    <div class="paste_letter_text">{{ 'LETTER_PROMPT' | translate}}</div>
+    <div style="text-align: center; margin-top: 30px; width: 100%;">
+        <textarea class="paste_letter_textarea" [(ngModel)]="video.letter" name="letter" #letter="ngModel"
+            minlength="100" maxlength="3000" required rows="10" cols="50"
+            placeholder="{{ 'LETTER_PLACEHOLDER' | translate }}">
+    </textarea>
+
+        <div *ngIf="letter.invalid && letter.touched" style="color: red; margin-top: 10px;">
+            <div *ngIf="letter.errors?.['required']">{{ 'LETTER_REQUIRED' | translate }}</div>
+            <div *ngIf="letter.errors?.['minlength']">{{ 'LETTER_TOO_SHORT' | translate }}</div>
+            <div *ngIf="letter.errors?.['maxlength']">{{ 'LETTER_TOO_LONG' | translate }}</div>
+        </div>
+    </div>
+    <!-- <div style="text-align: center; margin-top: 10px; width: 100%;">
+        <input type="file" id="fileInput" style="display: none;" (change)="onFileSelected($event)">
+        <button class="add_file">+ Прикрепить файл письма</button>
+    </div> -->
+    <div style="text-align: center; margin-top: 50px; width: 100%;">
+        <button (click)="goToSpeackerSex()" class="next">{{ 'NEXT' | translate }}</button>
+    </div>
+</div>
+
+<!-- Пол диктора -->
+<div style="width: 100%;" *ngIf="page === 'speakerSex'">
+    <div class="paste_letter_text">{{ 'SELECT_SPEAKER_SEX' | translate }}</div>
+
+    <div class="speakers-grid">
+        <div (click)="goToSpeaker(person.name)" class="speaker-card" *ngFor="let person of speakersSex">
+            <img [src]="person.photo" alt="{{ person.name }}" class="speaker-photo" />
+            <div class="speaker-name">{{ person.name | translate}}</div>
+            <div class="speaker-description">{{ person.description | translate}}</div>
+        </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 50px; width: 100%;">
+        <button (click)="goToLetter()" class="next">{{ 'BACK' | translate }}</button>
+    </div>
+</div>
+
+<!-- Диктор -->
+<div style="width: 100%;" *ngIf="page === 'speaker'">
+    <div class="paste_letter_text">{{ 'SELECT_SPEAKER' | translate }}</div>
+
+    <div class="speakers-grid">
+        <div (click)="goToCheckboxes(person.key)" class="speaker-card" *ngFor="let person of speakers">
+            <img [src]="person.photo" alt="{{ person.name }}" class="speaker-photo" />
+            <div class="speaker-name">{{ person.name | translate}}</div>
+            <div class="speaker-description">{{ person.description | translate}}</div>
+        </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 50px; width: 100%;">
+        <button (click)="goToSpeackerSex()" class="next">{{ 'BACK' | translate }}</button>
+    </div>
+</div>
+
+<!-- Чекбоксы -->
+<div style="width: 100%;" *ngIf="page === 'checkboxes'">
+    <div class="paste_letter_text">{{ 'SELECT_OPTIONS' | translate }}</div>
+    <div class="checkboxes-wrapper">
+        <label class="custom-checkbox">
+            <input type="checkbox" [(ngModel)]="video.subtitles" />
+            <span class="checkmark"></span>
+            {{ 'ADD_SUBTITLES' | translate }}
+        </label>
+
+        <label class="custom-checkbox">
+            <input type="checkbox" [(ngModel)]="video.music" />
+            <span class="checkmark"></span>
+            {{ 'ADD_MUSIC' | translate }}
+        </label>
+    </div>
+    <div style="text-align: center; margin-top: 30px; width: 100%;">
+        <button (click)="goToProcess()" class="next">{{ 'GENERATE' | translate }}</button>
+    </div>
+
+    <div style="text-align: center; margin-top: 30px; width: 100%;">
+        <button (click)="goToSpeackerSex()" class="next">{{ 'BACK' | translate }}</button>
+    </div>
+</div>
+
+<!-- Обработка -->
+<div style="width: 100%;" *ngIf="page === 'process'">
+    <div class="processing-wrapper">
+        <div class="signal-wave"></div>
+
+        <div class="processing-box">
+            <div class="processing-text">{{ message }}</div>
+            <div class="processing-text" *ngIf="queue > 0">Позиция в очереди: {{queue}}</div>
+        </div>
+    </div>
+</div>
+
+<!-- Ошибка -->
+<div style="width: 100%;" *ngIf="page === 'error'">
+    <div class="processing-wrapper">
+        <div class="processing-box">
+            <div class="processing-text">Ошибка генерации. Повторите попытку.</div>
+        </div>
+    </div>
+</div>
