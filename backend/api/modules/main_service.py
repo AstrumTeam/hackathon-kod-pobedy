@@ -21,6 +21,10 @@ from huggingface_hub import login
 
 class MainService:
     def __init__(self):
+        """
+        Инициализация всех модулей генерации, авторизация в HuggingFace,
+        подготовка пайплайна для обработки письма.
+        """
         login(token="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")
         self.llmModule = LLMModule()
         self.ttsModule = TTSModule()
@@ -31,7 +35,16 @@ class MainService:
         self.musicModule = MusicModule()
 
     def generate_video(self, letter: str, speaker: str, music_flag: bool, subtitles_flag: bool, job_id: str):
-        # try:
+        """
+        Основной метод генерации видео:
+        - Проверка текста
+        - Нормализация
+        - Генерация речи
+        - Подготовка промптов
+        - Генерация видео и изображения
+        - Апскейл, озвучка, субтитры и финальная сборка
+        """
+        try:
             print('Старт обработки письма')
             work_time = time.time()
             torch.cuda.empty_cache()
@@ -98,12 +111,16 @@ class MainService:
             print(f"Общее время обработки письма: {time.time() - work_time:.1f} секунд")
             return {'success': True, 'message': "Готово"}
         
-        # except Exception as e:
-        #     print(str(e))
-        #     torch.cuda.empty_cache()
-        #     return {'success': False, 'message': str(e)}
+        except Exception as e:
+            print(str(e))
+            torch.cuda.empty_cache()
+            return {'success': False, 'message': str(e)}
     
     def _distribute_duration_by_rating(self, prompts: dict, total_duration: int) -> dict:
+        """
+        Распределяет общее время между сценами на основе их рейтинга динамики.
+        Если рейтинг равен нулю — равномерное распределение.
+        """
         total_rating = sum(scene['dynamic_rating'] for scene in prompts.values())
         if total_rating == 0:
             equal_time = total_duration / len(prompts)
@@ -135,6 +152,10 @@ class MainService:
         return prompts
 
     def _combine_videos(self, total_prompts, job_id: str, music_flag: bool, subtitles_flag: bool, subtitles=None):
+        """
+        Объединяет сгенерированные видеофрагменты, добавляет музыку и субтитры,
+        затем выполняет апскейл видео (RIFE) и экспорт финального результата.
+        """
         videos_dir = "generated_videos"
         output_path = f"video_{job_id}.mp4"
 
@@ -209,6 +230,13 @@ class MainService:
         gc.collect()
     
     def _add_subtitles(self, clip, subtitles, font='api/font.ttf', font_size=24, color='white', stroke_color='black', stroke_width=1):
+        """
+        Добавляет субтитры в видео, используя временные интервалы.
+
+        Параметры:
+            clip: Исходный видеоклип
+            subtitles: Список субтитров [{start, end, text}]
+        """
         subtitle_clips = []
         max_chars_per_line = 100  # Примерно 920 пикселей в ширину при font_size=24
 

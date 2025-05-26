@@ -10,7 +10,20 @@ import time
 
 
 class STTModule:
+    """
+    Класс для автоматического распознавания речи (Speech-to-Text) с использованием модели FasterWhisper.
+    Включает обработку аудио, получение тайм-кодов слов и сегментацию текста на предложения с помощью Natasha.
+    """
+
     def __init__(self):
+        """
+        Инициализация параметров модуля:
+            - Название модели (Whisper)
+            - Устройство выполнения (CPU/GPU)
+            - Размер batch'а
+            - Тип вычислений (float16 для ускорения на GPU)
+            - Сегментер из библиотеки Natasha для разбивки текста на предложения
+        """
         self.model_name = "large-v3-turbo"
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
         self.batch_size = 32
@@ -18,10 +31,23 @@ class STTModule:
         self.segmenter = Segmenter()
 
     def init_model(self):
+        """
+        Инициализирует модель Whisper и оборачивает её в пайплайн для пакетной инференции.
+        """
         model = WhisperModel(self.model_name, device=self.device, compute_type=self.compute_type)
         self.model = BatchedInferencePipeline(model=model)
 
     def generate_stt(self, input_filename="speech.wav"):
+        """
+        Основной метод для распознавания речи из аудиофайла.
+
+        Параметры:
+            input_filename (str): Имя входного WAV-файла
+
+        Возвращает:
+            list: Список слов с временными метками, объединённых в предложения
+        """
+
         print('Старт генерации субтитров')
         start_time = time.time() 
         segments, _ = self.model.transcribe(input_filename, batch_size=self.batch_size, word_timestamps=True)
@@ -40,6 +66,16 @@ class STTModule:
         return sentences
 
     def split_by_sentences(self, text):
+        """
+        Разделяет текст на предложения с использованием Natasha.
+
+        Параметры:
+            text (str): Входной текст
+
+        Возвращает:
+            list: Список строк — предложений
+        """
+
         doc = Doc(text)
         doc.segment(self.segmenter)
 
@@ -47,6 +83,15 @@ class STTModule:
 
 
     def words_to_sentences(self, words):
+        """
+        Преобразует последовательность слов с таймкодами в список предложений с временными рамками.
+
+        Параметры:
+            words (list): Список слов с полями start, end и word
+
+        Возвращает:
+            list: Список предложений с метками времени
+        """
         sentences = []
         i = 0
         while i < len(words):

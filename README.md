@@ -1,10 +1,11 @@
 # hackathon-kod-pobedy
 
+Код проекта Pobedaletters. Сайт: Pobedaletters.ru
 
 
 # Telegram bot
 
-Телеграм бот для технической поддержки сайта.
+Телеграм бот для технической поддержки сайта. Рабочий бот: @pobedaletters_supportbot
 
 ## Установка
 
@@ -62,11 +63,18 @@ python telegram_bot/main.py
 ```bash
 pip install -r backend/requirements.txt
 ```
+
 2. Чтобы модель Text-To-Speech работала нужно скачать веса
 
 ```bash
 huggingface-cli download "TVI/f5-tts-ru-accent" --local-dir "backend\api\modules\f5_ckpt"
 ```
+3. Для интерполяции видео мы используем RIFE
+
+```bash
+git clone git@github.com:megvii-research/ECCV2022-RIFE.git"
+```
+
 
 ## Запуск
 ```bash
@@ -74,3 +82,21 @@ huggingface-cli download "TVI/f5-tts-ru-accent" --local-dir "backend\api\modules
 cd backend
 python manage.py runserver 0.0.0.0:8000
 ```
+
+## Структура проекта
+
+- `modules` - Каталог основных модулей
+- `modules/speakers` - Сэмплы дикторов
+- `modules/songs` - Фоновая музыка
+- `modules/llm_module.py` - Модуль с LLM
+- `modules/main_service.py` - Главный модуль, с главным методом генерации
+- `modules/music_module.py` - Модуль подбора и обрезки музыки
+- `modules/norm_module.py` - Модуль нормализации письма
+- `modules/stt_module.py` - Модуль создания субтитров
+- `modules/tts_module.py` - Модуль озвучки письма
+- `modules/text2image_module.py` - Модуль создания обложки видео
+- `modules/text2video_module.py` - Модуль создания кадров видео
+- `views.py` - REST API и обработка запросов, очередь запросов
+- `tests.py` - Автотесты
+- `models.py` - Data-классы таблиц из бд
+- `serializers.py` - Сериализаторы

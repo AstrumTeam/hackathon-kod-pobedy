@@ -6,12 +6,28 @@ import time
 from huggingface_hub import login
 
 class Text2ImageModule:
+    """
+    Класс для генерации изображений по текстовому описанию с использованием модели Stable Diffusion 3.5.
+    Поддерживает стилистическое оформление промпта и настройку качества генерации.
+    """
+
     def __init__(self):
+        """
+        Инициализация параметров:
+            - Название модели
+            - Путь к папке сохранения изображений
+            - Выбор устройства (GPU/CPU)
+        """
         self.model_name = "stabilityai/stable-diffusion-3.5-medium"
         self.output_dir = "preview_images"
         self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
     
     def init_model(self):
+        """
+        Загружает модель Stable Diffusion 3.5 с использованием half precision (float16)
+        и включает offload на CPU для экономии видеопамяти.
+        """
+
         self.pipeline = StableDiffusion3Pipeline.from_pretrained(
             self.model_name,
             torch_dtype=torch.float16,
@@ -21,6 +37,18 @@ class Text2ImageModule:
     
 
     def generate_image(self, prompt: str, guidance_scale=7.5, num_inference_steps=10, output_filename=None):
+        """
+        Генерация одного изображения по заданному текстовому описанию.
+
+        Параметры:
+            prompt (str): Основной текстовый запрос, описывающий изображение.
+            guidance_scale (float): Значение "направляющей силы", определяющее степень следования промпту. Стандартное значение — 7.5.
+            num_inference_steps (int): Количество шагов диффузии. Чем больше, тем выше качество (медленнее).
+            output_filename (str): Имя файла для сохранения изображения (обязателен).
+
+        Возвращает:
+            str: Имя сохранённого файла.
+        """
         login(token="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")
         os.makedirs(self.output_dir, exist_ok=True)
 
