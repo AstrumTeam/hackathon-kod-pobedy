@@ -37,7 +37,7 @@ python3 -m venv venv && source venv/bin/activate
 
 # Telegram bot
 
-Телеграм бот для технической поддержки сайта. Рабочий бот: @pobedaletters_supportbot
+Телеграм бот для технической поддержки сайта. Рабочий бот: [@pobedaletters_supportbot](https://t.me/pobedaletters_supportbot)
 
 ## Установка
 1. Установите зависимости:

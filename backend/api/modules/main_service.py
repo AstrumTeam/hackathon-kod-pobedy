@@ -59,9 +59,10 @@ class MainService:
             
         """
         try:
+            torch.cuda.empty_cache()
+            gc.collect()
             print('Старт обработки письма')
             work_time = time.time()
-            torch.cuda.empty_cache()
 
 
             self.llmModule.init_model()

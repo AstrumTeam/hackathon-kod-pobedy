@@ -1,8 +1,13 @@
 from rest_framework import serializers
+from django.core.validators import MaxLengthValidator, MinLengthValidator
 from .models import PublicVideo
 
 class VideoGenerationSerializer(serializers.Serializer):
-    letter = serializers.CharField(min_length=100, max_length=3000, allow_blank=False, required=True)
+    letter = serializers.CharField(allow_blank=False, required=True,
+                                   validators=[
+                                       MinLengthValidator(100),
+                                       MaxLengthValidator(2000)
+                                       ])
     speaker = serializers.ChoiceField(choices=[
         'levitan', 'anton', 'vysotskaya', 'bergholz', 'hmara',
     ], allow_blank=False, required=True)
@@ -11,7 +16,11 @@ class VideoGenerationSerializer(serializers.Serializer):
 
 
 class PublishVideoSerializer(serializers.Serializer):
-    letter = serializers.CharField(min_length=100, max_length=3000, allow_blank=False, required=True)
+    letter = serializers.CharField(allow_blank=False, required=True,
+                                   validators=[
+                                       MinLengthValidator(100),
+                                       MaxLengthValidator(2000)
+                                       ])
     author = serializers.CharField(min_length=5, max_length=50, allow_blank=False, required=False)
     job_id = serializers.UUIDField(required=True)
 
