@@ -7,9 +7,11 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  mobileMenuOpen = false;
+  dropdownOpen = false;
+
   title = 'PobedaLetters';
 
-  dropdownOpen = false;
   currentLang = 'ru';
 
   languages = [
@@ -35,10 +37,12 @@ export class AppComponent {
     return this.languages.find(lang => lang.code === this.currentLang)?.label || this.currentLang;
   }
 
-  switchLang(lang: string) {
-    this.currentLang = lang;
-    this.translate.use(lang);
-    this.dropdownOpen = false;
+  toggleMobileMenu() {
+    this.mobileMenuOpen = !this.mobileMenuOpen;
+  }
+
+  closeMobileMenu() {
+    this.mobileMenuOpen = false;
   }
 
   toggleDropdown() {
@@ -46,6 +50,12 @@ export class AppComponent {
   }
 
   closeDropdown() {
+    this.dropdownOpen = false;
+  }
+
+  switchLang(lang: string) {
+    this.currentLang = lang;
+    this.translate.use(lang);
     this.dropdownOpen = false;
   }
 

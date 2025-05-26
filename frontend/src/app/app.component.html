@@ -1,21 +1,48 @@
+
+<!-- BACKDROP -->
+<div class="backdrop" *ngIf="mobileMenuOpen" (click)="closeMobileMenu()"></div>
+
+<!-- HEADER -->
 <div class="header">
-    <div class="left_header" (click)="goHome()"><span>POBEDALETTERS</span></div>
+  <div style="padding-top: 5px;" class="left_header" (click)="goHome()">
+    <span>POBEDALETTERS</span>
+  </div>
 
-    <div class="right_header">
-        <button class="support" (click)="redirectToTelegramBot()">{{ 'SUPPORT' | translate }}</button>
+  <div class="burger" (click)="toggleMobileMenu()">
+    &#9776;
+  </div>
 
-        <div class="custom-select-wrapper" tabindex="0" (blur)="closeDropdown()">
-            <div class="custom-select" (click)="toggleDropdown()">
-                {{ currentLangLabel }}
-                <span class="arrow" [class.open]="dropdownOpen"></span>
-            </div>
-            <ul *ngIf="dropdownOpen" class="custom-options">
-                <li *ngFor="let lang of languages" (click)="switchLang(lang.code)">
-                    {{ lang.label }}
-                </li>
-            </ul>
-        </div>
+  <div class="right_header desktop-only">
+    <button class="support" (click)="redirectToTelegramBot()">{{ 'SUPPORT' | translate }}</button>
+
+    <div class="custom-select-wrapper" tabindex="0" (blur)="closeDropdown()">
+      <div class="custom-select" (click)="toggleDropdown()">
+        {{ currentLangLabel }}
+        <span class="arrow" [class.open]="dropdownOpen"></span>
+      </div>
+      <ul *ngIf="dropdownOpen" class="custom-options">
+        <li *ngFor="let lang of languages" (click)="switchLang(lang.code)">
+          {{ lang.label }}
+        </li>
+      </ul>
     </div>
+  </div>
+
+  <div class="mobile-menu" *ngIf="mobileMenuOpen">
+    <button style="margin-top: 2px;" class="support" (click)="redirectToTelegramBot()">{{ 'SUPPORT' | translate }}</button>
+
+    <div class="custom-select-wrapper" tabindex="0" (blur)="closeDropdown()">
+      <div class="custom-select" (click)="toggleDropdown()">
+        {{ currentLangLabel }}
+        <span class="arrow" [class.open]="dropdownOpen"></span>
+      </div>
+      <ul *ngIf="dropdownOpen" class="custom-options">
+        <li *ngFor="let lang of languages" (click)="switchLang(lang.code)">
+          {{ lang.label }}
+        </li>
+      </ul>
+    </div>
+  </div>
 </div>
 
 <router-outlet></router-outlet>

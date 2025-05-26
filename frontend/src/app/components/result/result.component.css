@@ -196,6 +196,7 @@
     resize: none;
     height: 60px;
     box-sizing: border-box;
+    width: 40%;
 }
 .input-field::selection {
     background-color: #a0121f;
@@ -291,7 +292,7 @@
     font-weight: 500;
     font-style: normal;
     height: 60px;
-    width: 300px;
+    width: 40%;
     transition: all 0.3s ease;
 }
 
@@ -299,4 +300,53 @@
     background-color: #ccc;
     color: #444;
     filter: grayscale(100%) brightness(1.2);
+}
+
+.publish-button {
+    background-color: #76000d;
+    color: #dcccba;
+    border: none;
+    padding: 10px 20px;
+    font-size: 35px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-family: "PFDinTextCompPro", monospace;
+    font-weight: 500;
+    font-style: normal;
+    height: 60px;
+    width: 40%;
+    transition: all 0.3s ease;
+}
+
+.publish-button:hover {
+    background-color: #ccc;
+    color: #444;
+    filter: grayscale(100%) brightness(1.2);
+}
+
+
+@media (max-width: 768px) {
+    .section-title {
+        font-size: 30px;
+    }
+
+    .custom-button{
+        width: 90%;
+        font-size: 24px;
+    }
+
+    .publish-button{
+        width: 90%;
+        font-size: 24px;
+    }
+
+    .paste_letter_textarea {
+        font-size: 24px;
+        width: 90%;
+    }
+
+    .input-field {
+        font-size: 24px;
+        width: 90%;
+    }
 }

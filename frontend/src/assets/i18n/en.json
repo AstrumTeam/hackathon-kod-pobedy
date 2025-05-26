@@ -39,5 +39,8 @@
     "BERGGOLTS_DESC": "Poetess of besieged Leningrad, who inspired people with her poetry on the radio.",
     "VYSOTSKAYA_NAME": "Olga Vysotskaya",
     "VYSOTSKAYA_DESC": "During the war, her voice, along with Yuri Levitan's, became a symbol of hope and resilience.",
-    "VIDEO_PUBLISHED": "Video published!"
+    "VIDEO_PUBLISHED": "Video published!",
+    "LETTER_REQUIRED": "The letter is required.",
+    "LETTER_TOO_SHORT": "The letter must be at least 100 characters.",
+    "LETTER_TOO_LONG": "The letter must be at most 3000 characters."
 }

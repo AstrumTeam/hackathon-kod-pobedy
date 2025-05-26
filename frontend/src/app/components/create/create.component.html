@@ -8,9 +8,9 @@
     </textarea>
 
         <div *ngIf="letter.invalid && letter.touched" style="color: red; margin-top: 10px;">
-            <div *ngIf="letter.errors?.['required']">{{ 'LETTER_REQUIRED' | translate }}</div>
-            <div *ngIf="letter.errors?.['minlength']">{{ 'LETTER_TOO_SHORT' | translate }}</div>
-            <div *ngIf="letter.errors?.['maxlength']">{{ 'LETTER_TOO_LONG' | translate }}</div>
+            <div class="char_text" *ngIf="letter.errors?.['required']">{{ 'LETTER_REQUIRED' | translate }}</div>
+            <div class="char_text" *ngIf="letter.errors?.['minlength']">{{ 'LETTER_TOO_SHORT' | translate }}</div>
+            <div class="char_text" *ngIf="letter.errors?.['maxlength']">{{ 'LETTER_TOO_LONG' | translate }}</div>
         </div>
     </div>
     <!-- <div style="text-align: center; margin-top: 10px; width: 100%;">
@@ -99,7 +99,7 @@
     <div class="processing-wrapper">
         <div class="processing-box">
             <div class="processing-text">Письмо не прошло фильтрацию на корректность. Повторите попытку.</div>
-            <button (click)="goToLetter()" class="next">{{ 'BACK' | translate }}</button>
+            <button (click)="goToLetter()" style="margin-top: 10px;" class="next">{{ 'BACK' | translate }}</button>
         </div>
     </div>
 </div>

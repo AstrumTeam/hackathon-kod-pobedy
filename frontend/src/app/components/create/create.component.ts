@@ -109,6 +109,17 @@ export class CreateComponent {
   }
 
   goToSpeackerSex() {
+    const text = this.video?.letter || '';
+    const length = text.trim().length;
+
+    if (length < 100) {
+      return;
+    }
+
+    if (length > 3000) {
+      return;
+    }
+
     this.page = 'speakerSex';
   }
 

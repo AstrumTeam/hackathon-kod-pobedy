@@ -65,18 +65,26 @@ class MainService:
                 print('Старт обработки письма')
                 work_time = time.time()
 
+                self.llmModule = LLMModule()
+                self.ttsModule = TTSModule()
+                self.sttModule = STTModule()
+                self.normModule = NormModule()
+                self.text2imageModule = Text2ImageModule()
+                self.text2videoModule = Text2VideoModule()
+                self.musicModule = MusicModule()
 
+                
                 self.llmModule.init_model()
                 response = self.llmModule.check_correct_letter(letter)
                 print(response)
                 if response['correct'] == False:
                     return {'success': False, 'message': "Письмо не прошло фильтрацию"}
                 
-                normalized_letter = self.llmModule.normalize_text(letter)
+                # normalized_letter = self.llmModule.normalize_text(letter)
 
 
                 self.normModule.init_model()
-                normalized_letter = self.normModule.normalize_text(normalized_letter)
+                normalized_letter = self.normModule.normalize_text(letter)
 
 
                 self.ttsModule.init_model()
@@ -125,6 +133,14 @@ class MainService:
                     self._combine_videos(total_prompts, job_id, music_flag, subtitles_flag, subtitles)
                 else:
                     self._combine_videos(total_prompts, job_id, music_flag, subtitles_flag)
+
+                del self.llmModule
+                del self.ttsModule
+                del self.sttModule
+                del self.normModule
+                del self.text2imageModule
+                del self.text2videoModule
+                del self.musicModule
 
                 torch.cuda.empty_cache()
                 gc.collect()

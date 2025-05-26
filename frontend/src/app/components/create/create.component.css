@@ -11,6 +11,13 @@
     text-align: center;
 }
 
+.char_text {
+  color: red;
+  font-family: "PFDinTextCompPro", monospace;
+  font-weight: 500;
+  font-size: 20px;
+}
+
 .paste_letter_textarea {
     font-family: "PFDinTextCompPro", monospace;
     font-weight: 500;
@@ -258,6 +265,15 @@
 }
 
 @media (max-width: 768px) {
+
+    .paste_letter_text{
+        font-size: 30px;
+        width: 90%;
+    }
+    .paste_letter_textarea {
+        font-size: 24px;
+        width: 90%;
+    }
     .speaker-card {
         width: 90%;
     }
