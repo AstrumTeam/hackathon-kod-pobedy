@@ -1,0 +1,112 @@
+{
+	"info": {
+		"_postman_id": "3ee40264-f6c7-425c-885c-bce698b8a2ff",
+		"name": "pobedaletters api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "30891916",
+		"_collection_link": "https://astrum-api.postman.co/workspace/CRES~196ea69c-aa25-497e-8e65-29c407f89d92/collection/30891916-3ee40264-f6c7-425c-885c-bce698b8a2ff?action=share&source=collection_link&creator=30891916"
+	},
+	"item": [
+		{
+			"name": "GenerateVideo",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"letter\": \"Здравствуй, дорогая Паничка с маленькими твоими деточками. Вчера получил от тебя письмо, писанное тобой 13 числа сего года, а сегодня спешу тебе сообщить. Дорогая Паня что ты мне писала в отношении аттест., то я с большим бы удовольствием это сделал бы, но я сейчас служу не в тех органах, в которых я служил до войны, а просто в рядах РККА, а поэтому я в этом отношении ничего не в силах сделать. Конечно это для меня большая обида. Очень рад что вы все живы и здоровы. От Миши твоего получил одно письмо, я ему написал уже три. Больше пока писем ни от кого не получил. Несколько слов о себе, я жив и здоров, нахожусь все там же где я и ранее писал. Здесь уже очень тепло. Очень и очень скучаю по семье и родным, скорее бы встретиться с ними. Пиши мне чаще, буду очень и очень рад. На этом писать пока кончаю. Напишу письмо. Пиши привет всем родным. Крепко крепко целую вас всех. Вася. Пиши привет всем родным. \",\n    \"speaker\": \"hmara\",\n    \"music\": true,\n    \"subtitles\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://pobedaletters.ru:8000/api/generate_video/"
+			},
+			"response": []
+		},
+		{
+			"name": "PublishVideo",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"letter\": \"Здравствуй, дорогая Паничка с маленькими твоими деточками. Вчера получил от тебя письмо, писанное тобой 13 числа сего года, а сегодня спешу тебе сообщить. Дорогая Паня что ты мне писала в отношении аттест., то я с большим бы удовольствием это сделал бы, но я сейчас служу не в тех органах, в которых я служил до войны, а просто в рядах РККА, а поэтому я в этом отношении ничего не в силах сделать. Конечно это для меня большая обида. Очень рад что вы все живы и здоровы. От Миши твоего получил одно письмо, я ему написал уже три. Больше пока писем ни от кого не получил. Несколько слов о себе, я жив и здоров, нахожусь все там же где я и ранее писал. Здесь уже очень тепло. Очень и очень скучаю по семье и родным, скорее бы встретиться с ними. Пиши мне чаще, буду очень и очень рад. На этом писать пока кончаю. Напишу письмо. Пиши привет всем родным. Крепко крепко целую вас всех. Вася. Пиши привет всем родным. \",\n    \"author\": \"Денис Артемович\",\n    \"job_id\": \"7380c954-653e-4ae2-b2b9-9945c3036aad\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://pobedaletters.ru:8000/api/publish_video/"
+			},
+			"response": []
+		},
+		{
+			"name": "GetPublicatedVideos",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://pobedaletters.ru:8000/api/publicated_videos/"
+			},
+			"response": []
+		},
+		{
+			"name": "GetVideoStatus",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://pobedaletters.ru:8000/api/video_status/7380c954-653e-4ae2-b2b9-9945c3036aad",
+					"protocol": "http",
+					"host": [
+						"pobedaletters",
+						"ru"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"video_status",
+						"7380c954-653e-4ae2-b2b9-9945c3036aad"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetVideo",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://pobedaletters.ru:8000/api/get_video/7380c954-653e-4ae2-b2b9-9945c3036aad"
+			},
+			"response": []
+		},
+		{
+			"name": "GetImage",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://pobedaletters.ru:8000/api/get_image/7380c954-653e-4ae2-b2b9-9945c3036aad"
+			},
+			"response": []
+		},
+		{
+			"name": "GetPublicatedVideoInfo",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://pobedaletters.ru:8000/api/publicated_video_info/7380c954-653e-4ae2-b2b9-9945c3036aad"
+			},
+			"response": []
+		}
+	]
+}

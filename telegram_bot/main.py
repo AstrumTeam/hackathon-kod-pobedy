@@ -35,7 +35,6 @@ class SupportStates(StatesGroup):
     waiting_for_reply = State()
 
 
-
 active_conversations = {}
 pending_replies = {}
 

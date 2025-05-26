@@ -6,12 +6,18 @@ from transformers import AutoModelForCausalLM, AutoTokenizer, FineGrainedFP8Conf
 
 
 class LLMModule:
+    """
+    Модуль обработки письма.
+    """
     def __init__(self):
         self.model_name = "Qwen/Qwen3-8B"
         self.tokenizer = AutoTokenizer.from_pretrained(self.model_name)
         self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
     
     def init_model(self):
+        """
+        Инициализация Qwen3-8B.
+        """
         self.model = AutoModelForCausalLM.from_pretrained(
             self.model_name,
             torch_dtype=torch.float16,
@@ -20,6 +26,16 @@ class LLMModule:
 
 
     def _work_model(self, messages: list[dict], top_k=None):
+        """
+        Работа с Qwen3-8B.
+
+        Args:
+            messages: list[dict] - промпт для модели, куда входит письмо.
+            top_k: int - параметр top_k для модели.
+
+        Returns:
+            str - ответ модели.
+        """
         text = self.tokenizer.apply_chat_template(
             messages,
             tokenize=False,
@@ -38,6 +54,16 @@ class LLMModule:
         return response
 
     def check_correct_letter(self, letter: str):
+        """
+        Проверка на аутентичность письма.
+
+        Args:
+            letter: str - письмо.
+
+        Returns:
+            bool - True - если письмо аутентично, False - если нет.
+        """
+
         prompt = '''
         Ты — историк-аналитик, специализирующийся на аутентичности писем времён Великой Отечественной войны.
 
@@ -97,6 +123,16 @@ class LLMModule:
         return response    
 
     def normalize_text(self, letter: str):
+        """
+        Нормализация текста.
+
+        Args:
+            letter: str - письмо.
+
+        Returns:
+            str - нормализованный текст.
+        """
+        
         prompt = '''
         Ты — редактор, специализирующийся на нормализации исторических писем.  
         Твоя задача — подготовить письмо советского солдата времён Великой Отечественной войны для последующей генерации аудио.
