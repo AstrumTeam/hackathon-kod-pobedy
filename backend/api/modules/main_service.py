@@ -59,72 +59,77 @@ class MainService:
             
         """
         try:
-            torch.cuda.empty_cache()
-            gc.collect()
-            print('Старт обработки письма')
-            work_time = time.time()
-
-
-            self.llmModule.init_model()
-            response = self.llmModule.check_correct_letter(letter)
-            print(response)
-            if response['correct'] == False:
-                return {'success': False, 'message': "Письмо не прошло фильтрацию"}
-            
-            normalized_letter = self.llmModule.normalize_text(letter)
-
-
-            self.normModule.init_model()
-            normalized_letter = self.normModule.normalize_text(normalized_letter)
-
-
-            self.ttsModule.init_model()
-            self.ttsModule.generate_tts(letter, speaker, output_filename=f"speech_{job_id}.wav")
-
-
-            audio = AudioFileClip(f"speech_{job_id}.wav")
-            videos_count = int(audio.duration // 5)
-            total_duration = int(audio.duration) + 2
-            audio.close()
-            print("Количество видео: ", videos_count)
-            print("Длина видео: ", total_duration, " секунд")
-
-
-            prompts = self.llmModule.create_prompts(letter, videos_count)
-            total_prompts = self._distribute_duration_by_rating(prompts, total_duration)
-            torch.cuda.empty_cache()
-
-            print(total_prompts)
-
-            
-            if music_flag:
-                self.musicModule.get_music(total_duration, output_filename=f"music_{job_id}.wav")
-
-            if subtitles_flag:
-                self.sttModule.init_model()
-                subtitles = self.sttModule.generate_stt(input_filename=f"speech_{job_id}.wav")
+            with torch.inference_mode():
                 torch.cuda.empty_cache()
+                gc.collect()
+                print('Старт обработки письма')
+                work_time = time.time()
 
 
-            id = random.randint(1, len(total_prompts))
-            self.text2imageModule.init_model()
-            self.text2imageModule.generate_image(total_prompts[f'prompt_{id}']['description'],output_filename=f"image_{job_id}.png")
-            torch.cuda.empty_cache()
+                self.llmModule.init_model()
+                response = self.llmModule.check_correct_letter(letter)
+                print(response)
+                if response['correct'] == False:
+                    return {'success': False, 'message': "Письмо не прошло фильтрацию"}
+                
+                normalized_letter = self.llmModule.normalize_text(letter)
 
 
-            self.text2videoModule.init_model()
-            self.text2videoModule.generate_videos(total_prompts, job_id, num_inference_steps=50)
-            torch.cuda.empty_cache()
+                self.normModule.init_model()
+                normalized_letter = self.normModule.normalize_text(normalized_letter)
 
 
-            if subtitles_flag:
-                self._combine_videos(total_prompts, job_id, music_flag, subtitles_flag, subtitles)
-            else:
-                self._combine_videos(total_prompts, job_id, music_flag, subtitles_flag)
+                self.ttsModule.init_model()
+                self.ttsModule.generate_tts(letter, speaker, output_filename=f"speech_{job_id}.wav")
 
-            torch.cuda.empty_cache()
-            print(f"Общее время обработки письма: {time.time() - work_time:.1f} секунд")
-            return {'success': True, 'message': "Готово"}
+
+                audio = AudioFileClip(f"speech_{job_id}.wav")
+                videos_count = int(audio.duration // 5)
+                total_duration = int(audio.duration) + 2
+                audio.close()
+                print("Количество видео: ", videos_count)
+                print("Длина видео: ", total_duration, " секунд")
+
+
+                prompts = self.llmModule.create_prompts(letter, videos_count)
+                total_prompts = self._distribute_duration_by_rating(prompts, total_duration)
+                torch.cuda.empty_cache()
+                gc.collect()
+
+                print(total_prompts)
+
+                
+                if music_flag:
+                    self.musicModule.get_music(total_duration, output_filename=f"music_{job_id}.wav")
+
+                if subtitles_flag:
+                    self.sttModule.init_model()
+                    subtitles = self.sttModule.generate_stt(input_filename=f"speech_{job_id}.wav")
+                    torch.cuda.empty_cache()
+
+
+                id = random.randint(1, len(total_prompts))
+                self.text2imageModule.init_model()
+                self.text2imageModule.generate_image(total_prompts[f'prompt_{id}']['description'],output_filename=f"image_{job_id}.png")
+                torch.cuda.empty_cache()
+                gc.collect()
+
+
+                self.text2videoModule.init_model()
+                self.text2videoModule.generate_videos(total_prompts, job_id, num_inference_steps=50)
+                torch.cuda.empty_cache()
+                gc.collect()
+
+
+                if subtitles_flag:
+                    self._combine_videos(total_prompts, job_id, music_flag, subtitles_flag, subtitles)
+                else:
+                    self._combine_videos(total_prompts, job_id, music_flag, subtitles_flag)
+
+                torch.cuda.empty_cache()
+                gc.collect()
+                print(f"Общее время обработки письма: {time.time() - work_time:.1f} секунд")
+                return {'success': True, 'message': "Готово"}
         
         except Exception as e:
             print(str(e))
@@ -200,7 +205,10 @@ class MainService:
 
         for clip in clips:
             clip.close()
+            del clip
         video.close()
+        del video
+        del clips
 
 
 
@@ -231,7 +239,7 @@ class MainService:
 
         if music_flag:
             music = AudioFileClip(music_path)
-            music = music.with_effects([afx.MultiplyVolume(0.2)])
+            music = music.with_effects([afx.MultiplyVolume(0.1)])
             final_audio = CompositeAudioClip([music, audio])
         else:
             final_audio = audio
@@ -245,10 +253,16 @@ class MainService:
         final_video.write_videofile(output_path, codec="libx264", audio_codec="aac")
 
         audio.close()
+        del audio
         if music_flag:
             music.close()
+            del music
         video.close()
+        del video
+        final_audio.close()
+        del final_audio
         final_video.close()
+        del final_video
 
         os.remove(f'speech_{job_id}.wav')
         if music_flag:
