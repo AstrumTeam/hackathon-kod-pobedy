@@ -9,7 +9,7 @@ class VideoGenerationSerializer(serializers.Serializer):
                                        MaxLengthValidator(2000)
                                        ])
     speaker = serializers.ChoiceField(choices=[
-        'levitan', 'anton', 'vysotskaya', 'bergholz', 'hmara',
+        'levitan', 'vysotskaya', 'bergholz', 'hmara',
     ], allow_blank=False, required=True)
     music = serializers.BooleanField(default=True)
     subtitles = serializers.BooleanField(default=True)

@@ -88,7 +88,7 @@ class MainService:
 
 
                 self.ttsModule.init_model()
-                self.ttsModule.generate_tts(letter, speaker, output_filename=f"speech_{job_id}.wav")
+                self.ttsModule.generate_tts(normalized_letter, speaker, output_filename=f"speech_{job_id}.wav")
 
 
                 audio = AudioFileClip(f"speech_{job_id}.wav")
