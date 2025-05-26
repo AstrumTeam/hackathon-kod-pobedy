@@ -68,9 +68,9 @@ class MainService:
             response = self.llmModule.check_correct_letter(letter)
             print(response)
             if response['correct'] == False:
-                return {'success': False, 'message': "Письмо не прошло филтрацию"}
+                return {'success': False, 'message': "Письмо не прошло фильтрацию"}
             
-            # normalized_letter = self.llmModule.normalize_text(letter)
+            normalized_letter = self.llmModule.normalize_text(letter)
 
 
             self.normModule.init_model()

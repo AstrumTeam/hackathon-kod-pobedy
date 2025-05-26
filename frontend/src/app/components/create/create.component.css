@@ -179,6 +179,7 @@
   border-radius: 0;
   box-shadow: none;
   animation: none;
+  text-align: center;
 }
 
 .processing-text {

@@ -1,3 +1,11 @@
+<div class="publish-message" *ngIf="isPublished">
+  <h1 class="publish-text">{{ 'VIDEO_PUBLISHED' | translate }}</h1>
+</div>
+
+<div class="publish-message" *ngIf="isDownloaded">
+  <h1 class="publish-text">Видео скачано!</h1>
+</div>
+
 <!-- Сообщение "Готово!" -->
 <div class="ready-message" *ngIf="!isReady">
   <h1 class="ready-text">{{ 'READY' | translate }}</h1>

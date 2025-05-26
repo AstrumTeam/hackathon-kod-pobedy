@@ -19,13 +19,27 @@
 - Фоновая музыка
 - Интерполяция видео (Генерация в 32 FPS)
 
+# Локальная установка
+
+## Создайте виртуальное окружение
+
+windows: 
+
+```bash
+python -m venv venv && venv/Scripts/activate
+```
+
+linux:
+
+```bash
+python3 -m venv venv && source venv/bin/activate
+```
 
 # Telegram bot
 
 Телеграм бот для технической поддержки сайта. Рабочий бот: @pobedaletters_supportbot
 
 ## Установка
-
 1. Установите зависимости:
 ```bash
 pip install -r telegram_bot/requirements.txt
@@ -58,11 +72,14 @@ python telegram_bot/main.py
 - Любое текстовое сообщение будет отправлено команде поддержки
 
 ## Структура проекта
-
-- `main.py` - Основной файл бота
-- `faq.py` - файл с частозадаваемыми вопросами
-- `requirements.txt` - Зависимости проекта
-- `.env` - Конфигурационный файл (нужно создать) 
+```
+.
+├── telegram_bot/                # Папка телеграм бота
+│   ├── main.py                  # Основной файл бота
+│   ├── faq.py                   # файл с частозадаваемыми вопросами
+│   ├── requirements.txt         # Зависимости
+│   └── .env                     # Конфигурационный файл (нужно создать)
+```
 
 
 # Backend
@@ -89,13 +106,12 @@ huggingface-cli download "TVI/f5-tts-ru-accent" --local-dir "backend\api\modules
 3. Для интерполяции видео мы используем RIFE
 
 ```bash
-git clone git@github.com:megvii-research/ECCV2022-RIFE.git"
+git clone git@github.com:megvii-research/ECCV2022-RIFE.git "backend\api\modules"
 ```
 
 
 ## Запуск
 ```bash
-./.venv312/Scripts/activate
 cd backend
 python manage.py runserver 0.0.0.0:8000
 ```
@@ -140,11 +156,15 @@ http://localhost:4200/
 ---
 
 ## Структура проекта
-
-- `src/app` — компоненты и логика приложения
-- `src/assets` — изображения и статические файлы
-- `angular.json` — конфигурация Angular CLI
-- `package.json` — зависимости и npm-скрипты
+```
+.
+├── frontend/                # Папка телеграм бота
+│   ├── src/
+│   │   ├── app/             # компоненты и логика приложения
+│   │   └── asserts/         # изображения и статические файлы
+│   ├── angular.json         # конфигурация Angular CLI
+│   └── package.json         # зависимости и npm-скрипты
+```
 
 ---
 
@@ -156,19 +176,23 @@ Angular CLI версии: `15.1.6`
 Node.js версии: `20.16.0` (рекомендуется использовать LTS 18.x)
 
 ## Структура проекта
-
-- `modules` - Каталог основных модулей
-- `modules/speakers` - Сэмплы дикторов
-- `modules/songs` - Фоновая музыка
-- `modules/llm_module.py` - Модуль с LLM
-- `modules/main_service.py` - Главный модуль, с главным методом генерации
-- `modules/music_module.py` - Модуль подбора и обрезки музыки
-- `modules/norm_module.py` - Модуль нормализации письма
-- `modules/stt_module.py` - Модуль создания субтитров
-- `modules/tts_module.py` - Модуль озвучки письма
-- `modules/text2image_module.py` - Модуль создания обложки видео
-- `modules/text2video_module.py` - Модуль создания кадров видео
-- `views.py` - REST API и обработка запросов, очередь запросов
-- `tests.py` - Автотесты
-- `models.py` - Data-классы таблиц из бд
-- `serializers.py` - Сериализаторы
+```
+.
+├── backend/                                # Исходный код
+│   ├── api/                                # Утилит
+│   │   ├── modules/                        # Каталог основных модулей
+│   │   │   ├── speakers/                   # сэмплы дикторов
+│   │   │   ├── songs/                      # фоновая музыка
+│   │   │   ├── llm_module.py               # Модуль с LLM
+│   │   │   ├── main_service.py             # Главный модуль с методом генерации
+│   │   │   ├── music_module.py             # Модуль подбора и обрезки музыки
+│   │   │   ├── norm_module.py              # Модуль нормализации письма 
+│   │   │   ├── stt_module.py               # Модуль создания субтитров
+│   │   │   ├── tts_module.py               # Модуль озвучки письма
+│   │   │   ├── text2image_module.py        # Модуль создания обложки видео
+│   │   └── └── text2video_module.py        # Модуль создания кадров видео
+│   │   ├── views.py                        # REST API и обработка запросов, очередь запросов
+│   │   ├── tests.py                        # Автотесты
+│   │   ├── models.py                       # Data-классы таблиц из бд
+└── └── └── serializers.py                  # Сериализаторы
+```

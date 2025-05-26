@@ -19,6 +19,9 @@ export class ResultComponent implements AfterViewInit, OnInit {
 
   isReady = false;
 
+  isPublished: boolean = false;
+  isDownloaded: boolean = false;
+
   url = '';
 
   video = {
@@ -51,11 +54,12 @@ export class ResultComponent implements AfterViewInit, OnInit {
     private serverUrl: ServerUrlService,
     private router: Router,
     private videoService: VideoService
-  ) { 
+  ) {
     this.url = this.serverUrl.serverUrl;
   }
 
   ngOnInit() {
+
     setTimeout(() => {
       this.isReady = true;
     }, 1500);
@@ -81,17 +85,26 @@ export class ResultComponent implements AfterViewInit, OnInit {
 
   }
 
-download() {
-  this.videoService.getVideo(this.videoId!).subscribe((blob: Blob) => {
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `video_${this.videoId}.mp4`;
-    a.click();
-    window.URL.revokeObjectURL(url);
-    console.log('Видео скачано');
-  });
-}
+  download() {
+    this.videoService.getVideo(this.videoId!).subscribe((blob: Blob) => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `video_${this.videoId}.mp4`;
+      a.click();
+      window.URL.revokeObjectURL(url);
+      console.log('Видео скачано');
+
+      this.isDownloaded = true;
+
+      setTimeout(() => this.isDownloaded = false, 3000);
+    });
+  }
+
+  show() {
+    this.isPublished = true;
+    setTimeout(() => this.isPublished = false, 3000);
+  }
 
   publish() {
     this.videoService.publishVideo({
@@ -100,6 +113,8 @@ download() {
       job_id: this.videoId!
     }).subscribe((response) => {
       console.log('Response:', response);
+      this.isPublished = true;
+      setTimeout(() => this.isPublished = false, 3000);
     })
   }
 

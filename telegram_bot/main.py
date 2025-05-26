@@ -103,7 +103,7 @@ async def handle_question(message: Message, state: FSMContext):
 
     await bot.send_message(
         SUPPORT_CHAT_ID,
-        f"📩 Новый вопрос от пользователя {message.from_user.full_name} (ID: {message.from_user.id}):\n\n"
+        f"📩 Новый вопрос от пользователя @{message.from_user.username} (ID: {message.from_user.id}):\n\n"
         f"{message.text}"
     )
     
@@ -120,13 +120,13 @@ async def handle_files(message: Message):
 
     if message.photo:
         file_id = message.photo[-1].file_id
-        caption = f"📸 Фото от пользователя {message.from_user.full_name} (ID: {message.from_user.id})"
+        caption = f"📸 Фото от пользователя @{message.from_user.username} (ID: {message.from_user.id})"
         if message.caption:
             caption += f"\n\nПодпись: {message.caption}"
         await bot.send_photo(SUPPORT_CHAT_ID, file_id, caption=caption)
     elif message.document:
         file_id = message.document.file_id
-        caption = f"📄 Документ от пользователя {message.from_user.full_name} (ID: {message.from_user.id})"
+        caption = f"📄 Документ от пользователя @{message.from_user.username} (ID: {message.from_user.id})"
         if message.caption:
             caption += f"\n\nПодпись: {message.caption}"
         await bot.send_document(SUPPORT_CHAT_ID, file_id, caption=caption)
@@ -145,6 +145,11 @@ async def process_rating(callback: CallbackQuery):
         f"Спасибо за вашу оценку: {rating} ⭐"
     )
     await callback.answer()
+    await bot.send_message(
+        SUPPORT_CHAT_ID,
+        f"🤩 Пользователь @{callback.from_user.username} поставил рейтинг ответу\n\n"
+        f"Рейтинг: {rating} ⭐"
+    )
 
 def get_rating_keyboard():
     builder = InlineKeyboardBuilder()

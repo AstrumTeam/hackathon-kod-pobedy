@@ -1,3 +1,25 @@
+.publish-message {
+  position: fixed;
+  top: 20px; /* было 50% — сдвигаем наверх */
+  left: 50%;
+  transform: translateX(-50%); /* убрали по Y, оставили только по X */
+  background: #171717;
+  padding: 20px 40px;
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(118, 0, 13, 0.5);
+  z-index: 999;
+  text-align: center;
+  border: 3px solid #76000d;
+}
+
+.publish-text {
+  font-family: "PFDinTextCompPro", monospace;
+  font-size: 36px;
+  font-weight: 600;
+  color: #caffba;
+  margin: 0;
+}
+
 .result-wrapper {
     display: flex;
     flex-direction: column;
