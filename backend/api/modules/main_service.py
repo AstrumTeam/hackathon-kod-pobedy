@@ -265,6 +265,8 @@ class MainService:
 
         if subtitles_flag:
             final_video = self._add_subtitles(video, subtitles)
+        else:
+            final_video = video
 
         final_video.write_videofile(output_path, codec="libx264", audio_codec="aac")
 
@@ -283,8 +285,8 @@ class MainService:
         os.remove(f'speech_{job_id}.wav')
         if music_flag:
             os.remove(f'music_{job_id}.wav')
-        os.remove(f'video_{job_id}.mp4 ')
-        os.remove(f'video_x4_{job_id}.mp4 ')
+        os.remove(f'video_{job_id}.mp4')
+        os.remove(f'video_x4_{job_id}.mp4')
         [os.remove(os.path.join('generated_videos', f)) for f in os.listdir('generated_videos')]
         os.rmdir('generated_videos')
 
