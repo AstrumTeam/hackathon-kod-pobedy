@@ -124,7 +124,7 @@ class MainService:
 
 
                 self.text2videoModule.init_model()
-                self.text2videoModule.generate_videos(total_prompts, job_id, num_inference_steps=50)
+                self.text2videoModule.generate_videos(prompts=total_prompts, job_id=job_id, fps=6, num_inference_steps=50)
                 torch.cuda.empty_cache()
                 gc.collect()
 

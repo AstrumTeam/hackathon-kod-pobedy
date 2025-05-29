@@ -80,10 +80,18 @@ class JobQueueManager:
                 return None
             info = self.job_statuses[job_id]
             queue_position = self.queue_list.index(job_id) + 1 if job_id in self.queue_list else 0
-            return {
+            
+            if info['status'] == 'failed':
+                return {
                 "status": info['status'],
+                "error": info['error'],
                 "queue_position": queue_position
-            }
+                }
+            else:
+                return {
+                    "status": info['status'],
+                    "queue_position": queue_position
+                }
 
     def process_queue(self):
         logger.info("Запущен поток обработки очереди")
