@@ -23,11 +23,6 @@ export interface GenerateVideoResponse {
     queue_position: number;
 }
 
-export interface VideoStatusResponse {
-    status: string;
-    queue_position: number;
-}
-
 export interface PublishVideo{
     letter: string;
     author: string;
@@ -65,7 +60,7 @@ export class VideoService {
         });
     }
 
-    getVideoStatus(jobId: string): Observable<VideoStatusResponse> {
+    getVideoStatus(jobId: string): Observable<any> {
         return this.http.get<any>(`${this.apiUrl}/video_status/${jobId}/`);
     }
 

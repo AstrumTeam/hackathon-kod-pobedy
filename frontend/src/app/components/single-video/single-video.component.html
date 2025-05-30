@@ -1,4 +1,4 @@
-<div class="video-container">
+<div *ngIf="!error" class="video-container">
     <div class="plyr-wrapper">
         <video id="player" class="plyr-video" playsinline controls>
             <source [src]="url + '/api/get_video/' + videoId + '/'" type="video/mp4" />
@@ -6,7 +6,11 @@
         </video>
     </div>
 
-    <div class="letter-text" style="margin-top: 10px;">Автор: {{video.author}}</div>
+    <div class="ai_video">
+        *видео было сгенерировано искуственным интеллектом
+    </div>
+
+    <div class="letter-text" *ngIf="video.author" style="margin-top: 10px;">Автор: {{video.author}}</div>
 
     <div class="generated_from">{{ 'GENERATED_FROM' | translate }}</div>
 
@@ -14,5 +18,14 @@
         <p class="letter-text">
             {{ video.letter }}
         </p>
+    </div>
+</div>
+
+<div style="width: 100%;" *ngIf="error">
+    <div class="processing-wrapper">
+        <div class="processing-box">
+            <div class="processing-text">{{error}}</div>
+            <button (click)="toMain()" style="margin-top: 10px;" class="next">{{ 'BACK' | translate }}</button>
+        </div>
     </div>
 </div>

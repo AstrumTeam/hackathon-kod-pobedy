@@ -17,6 +17,8 @@ export class ResultComponent implements AfterViewInit, OnInit {
 
   autor: string = '';
 
+  error = '';
+
   isReady = false;
 
   isPublished: boolean = false;
@@ -86,36 +88,70 @@ export class ResultComponent implements AfterViewInit, OnInit {
   }
 
   download() {
-    this.videoService.getVideo(this.videoId!).subscribe((blob: Blob) => {
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `video_${this.videoId}.mp4`;
-      a.click();
-      window.URL.revokeObjectURL(url);
-      console.log('Видео скачано');
+    this.videoService.getVideo(this.videoId!).subscribe({
+      next: (blob: Blob) => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `video_${this.videoId}.mp4`;
+        a.click();
+        window.URL.revokeObjectURL(url);
+        console.log('Видео скачано');
 
-      this.isDownloaded = true;
+        this.isDownloaded = true;
+        setTimeout(() => this.isDownloaded = false, 3000);
+      },
+      error: (err) => {
+        console.error('Ошибка при скачивании видео:', err);
 
-      setTimeout(() => this.isDownloaded = false, 3000);
+        if (err.error?.message) {
+          this.error = err.error.message;
+        } else if (err.status) {
+          this.error = `Ошибка ${err.status}`;
+        } else {
+          this.error = 'Произошла ошибка при скачивании видео';
+        }
+
+        setTimeout(() => { this.error = ''; }, 3000);
+      }
+    });
+  }
+
+  publish() {
+    const data: any = {
+      letter: this.letter!,
+      job_id: this.videoId!
+    };
+
+    if (this.autor?.trim()) {
+      data.author = this.autor.trim();
+    }
+
+    this.videoService.publishVideo(data).subscribe({
+      next: (response) => {
+        console.log('Response:', response);
+        this.isPublished = true;
+        setTimeout(() => this.isPublished = false, 3000);
+      },
+      error: (err) => {
+        console.error('Ошибка при публикации видео:', err);
+
+        if (err.error?.message) {
+          this.error = err.error.message;
+        } else if (err.status) {
+          this.error = `Ошибка ${err.status}`;
+        } else {
+          this.error = 'Произошла ошибка при публикации видео';
+        }
+
+        setTimeout(() => { this.error = ''; }, 3000);
+      }
     });
   }
 
   show() {
     this.isPublished = true;
     setTimeout(() => this.isPublished = false, 3000);
-  }
-
-  publish() {
-    this.videoService.publishVideo({
-      letter: this.letter!,
-      author: this.autor,
-      job_id: this.videoId!
-    }).subscribe((response) => {
-      console.log('Response:', response);
-      this.isPublished = true;
-      setTimeout(() => this.isPublished = false, 3000);
-    })
   }
 
   generateMore() {

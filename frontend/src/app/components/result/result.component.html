@@ -6,40 +6,49 @@
   <h1 class="publish-text">Видео скачано!</h1>
 </div>
 
+<div class="publish-message" *ngIf="error">
+  <h1 class="publish-text">{{error}}</h1>
+</div>
+
 <!-- Сообщение "Готово!" -->
 <div class="ready-message" *ngIf="!isReady">
   <h1 class="ready-text">{{ 'READY' | translate }}</h1>
 </div>
 
 <div class="result-wrapper" [class.show]="isReady">
-    <!-- Основное видео -->
-    <div class="plyr-wrapper">
-        <video class="plyr-video" id="main-player" playsinline controls width="1024" height="576">
-            <source [src]="url + '/api/get_video/' + videoId + '/'" type="video/mp4" />
-            Your browser does not support HTML5 video.
-        </video>
+  <!-- Основное видео -->
+  <div class="plyr-wrapper">
+    <video class="plyr-video" id="main-player" playsinline controls width="1024" height="576">
+      <source [src]="url + '/api/get_video/' + videoId + '/'" type="video/mp4" />
+      Your browser does not support HTML5 video.
+    </video>
+  </div>
+
+  <div class="ai_video">
+    *видео было сгенерировано искуственным интеллектом
+  </div>
+
+  <!-- Письмо -->
+  <h2 class="section-title">{{ 'GENERATED_FROM_LETTER' | translate }}</h2>
+  <textarea readonly class="paste_letter_textarea" rows="10" [(ngModel)]="letter"></textarea>
+
+  <button class="custom-button" (click)="download()">{{ 'DOWNLOAD' | translate }}</button>
+
+  <h2 class="section-title" style="margin-top: -10px; margin-bottom: 0px;">{{ 'ALSO_YOU_CAN' | translate }}</h2>
+
+  <input type="text" class="input-field" [(ngModel)]="autor"
+    placeholder="Введите имя автора, чтобы опубликовать видео с его именем" />
+
+  <button class="publish-button" (click)="publish()">{{ 'PUBLISH' | translate }}</button>
+
+  <button class="custom-button" (click)="generateMore()">{{ 'GENERATE_MORE' | translate }}</button>
+
+  <!-- Кнопки -->
+  <div class="buttons-row">
+    <div style="width: 40%; text-align: center;">
+
     </div>
+  </div>
 
-    <!-- Письмо -->
-    <h2 class="section-title">{{ 'GENERATED_FROM_LETTER' | translate }}</h2>
-    <textarea readonly class="paste_letter_textarea" rows="10" [(ngModel)]="letter"></textarea>
-
-    <button class="custom-button" (click)="download()">{{ 'DOWNLOAD' | translate }}</button>
-
-    <h2 class="section-title" style="margin-top: -10px; margin-bottom: 0px;">{{ 'ALSO_YOU_CAN' | translate }}</h2>
-
-    <input type="text" class="input-field" [(ngModel)]="autor" placeholder="Введите имя автора, чтобы опубликовать видео с его именем" />
-    
-    <button class="publish-button" (click)="publish()">{{ 'PUBLISH' | translate }}</button>
-
-    <button class="custom-button" (click)="generateMore()">{{ 'GENERATE_MORE' | translate }}</button>
-
-    <!-- Кнопки -->
-    <div class="buttons-row">
-        <div style="width: 40%; text-align: center;">
-            
-        </div>
-    </div>
-
-    <div style="height: 20px;"></div>
+  <div style="height: 20px;"></div>
 </div>

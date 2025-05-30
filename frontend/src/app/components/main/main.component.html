@@ -20,7 +20,11 @@
   {{ 'HI_TEXT_4' | translate }}
 </div>
 
-<div class="masonry-flex">
+<div *ngIf="error.length > 0" class="videos_text" style="text-align: center; font-weight: 600; margin-top: 10px;">
+  {{error}}
+</div>
+
+<div *ngIf="error.length === 0" class="masonry-flex">
   <div class="column">
     <div class="preview-card" (click)="goToVideo(preview.id)" *ngFor="let preview of videosColumn1">
       <img [src]="url + '/api/get_image/' + preview.id + '/'" loading="lazy" class="lazy-image" (load)="onImageLoad($event)"/>
@@ -47,4 +51,8 @@
       </div>
     </div>
   </div>
+</div>
+
+<div *ngIf="show_ai" class="ai_video">
+  *весь контент был сгенерирован искуственным интеллектом
 </div>

@@ -98,7 +98,7 @@
 <div style="width: 100%;" *ngIf="page === 'error'">
     <div class="processing-wrapper">
         <div class="processing-box">
-            <div class="processing-text">Письмо не прошло фильтрацию на корректность. Повторите попытку.</div>
+            <div class="processing-text">{{error}}</div>
             <button (click)="goToLetter()" style="margin-top: 10px;" class="next">{{ 'BACK' | translate }}</button>
         </div>
     </div>

@@ -67,3 +67,63 @@
     font-size: 16px;
   }
 }
+
+.processing-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  transform: translateY(-100px); /* приподнимаем блок вверх */
+}
+
+.processing-box {
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  animation: none;
+  text-align: center;
+}
+
+.processing-text {
+  font-family: "PFDinTextCompPro", monospace;
+  font-size: 32px;
+  color: #dcccba;
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+.next {
+    background-color: #76000d;
+    color: #dcccba;
+    border: none;
+    padding: 10px 20px;
+    font-size: 35px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-family: "PFDinTextCompPro", monospace;
+    font-weight: 500;
+    font-style: normal;
+    height: 60px;
+    width: 300px;
+    transition: all 0.3s ease;
+}
+
+.next:hover {
+    background-color: #ccc;
+    color: #444;
+    filter: grayscale(100%) brightness(1.2);
+}
+
+.ai_video{
+    font-size: 20px;
+    font-weight: 400;
+    color: #dcccba;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    font-style: italic;
+    margin-top: 15px;
+    text-align: right;
+    margin-right: 5px;
+}

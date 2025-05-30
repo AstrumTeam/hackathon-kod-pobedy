@@ -19,6 +19,8 @@ export class CreateComponent {
   queue: number = 0;
   message: string = '';
 
+  error: string = '';
+
   video: GenerateVideo = {
     letter: "",
     speaker: "",
@@ -26,7 +28,7 @@ export class CreateComponent {
     music: true
   }
 
-  page: string = 'letter';
+  page: string = 'letter'; // 'letter', 'speakerSex', 'speaker', 'checkboxes', 'process', 'error'
 
   speakers: Speaker[] = [];
 
@@ -89,21 +91,6 @@ export class CreateComponent {
 
   }
 
-  // triggerFileInput() {
-  //   const fileInput = document.getElementById('fileInput') as HTMLInputElement;
-  //   if (fileInput) {
-  //     fileInput.click();
-  //   }
-  // }
-
-  // onFileSelected(event: Event) {
-  //   const input = event.target as HTMLInputElement;
-  //   if (input.files && input.files.length > 0) {
-  //     const file = input.files[0];
-  //     console.log('Файл выбран:', file.name);
-  //   }
-  // }
-
   goToLetter() {
     this.page = 'letter';
   }
@@ -116,7 +103,7 @@ export class CreateComponent {
       return;
     }
 
-    if (length > 3000) {
+    if (length > 2000) {
       return;
     }
 
@@ -140,44 +127,93 @@ export class CreateComponent {
       return;
     }
 
-    this.videoService.generateVideo(this.video).subscribe((response) => {
-      console.log('Response:', response);
-      const jobId = response.job_id;
-
-      if (response.message === 'Видео поставлено в очередь на генерацию') {
-        localStorage.setItem('job_id', jobId);
-
-        this.page = 'process';
+    this.videoService.generateVideo(this.video).subscribe({
+      next: (response) => {
+        console.log('Response:', response);
         this.message = response.message;
-        this.queue = response.queue_position;
 
-        this.checkVideoStatus(jobId);
+        const jobId = response.job_id;
+
+        if (response.message === 'Видео поставлено в очередь на генерацию') {
+          localStorage.setItem('job_id', jobId);
+          this.page = 'process';
+          this.queue = response.queue_position;
+
+          this.checkVideoStatus(jobId);
+        } else if (response.message === 'Неверный формат данных') {
+          localStorage.removeItem('job_id');
+          this.error = response.message;
+          this.page = 'error';
+        } else {
+          this.error = response.message;
+          this.page = 'error';
+        }
+      },
+      error: (err) => {
+        console.error('Error:', err);
+
+        if (err.error?.message) {
+          this.error = err.error.message;
+        } else if (err.status) {
+          this.error = `Ошибка ${err.status}`;
+        } else {
+          this.error = 'Произошла ошибка при отправке запроса';
+        }
+
+        this.page = 'error';
       }
     });
   }
 
   checkVideoStatus(jobId: string) {
     const intervalId = setInterval(() => {
-      this.videoService.getVideoStatus(jobId).subscribe((statusResponse) => {
-        console.log('Status Response:', statusResponse);
+      this.videoService.getVideoStatus(jobId).subscribe({
+        next: (statusResponse) => {
+          console.log('Status Response:', statusResponse);
 
-        if (statusResponse.status === 'processing') {
-          this.page = 'process';
-          this.message = 'Обработка...';
-        }
+          this.queue = statusResponse.queue_position;
 
-        this.queue = statusResponse.queue_position;
+          if (statusResponse.status === 'processing') {
+            this.page = 'process';
+            this.message = 'Обработка...';
+          }
 
-        if (statusResponse.status === 'completed') {
-          clearInterval(intervalId);
-          localStorage.removeItem('job_id');  // удаление после завершения
-          this.router.navigate(['/result'], { queryParams: { id: jobId, letter: this.video.letter } });
-        }
+          if (statusResponse.status === 'completed') {
+            clearInterval(intervalId);
+            localStorage.removeItem('job_id');
+            this.router.navigate(['/result'], {
+              queryParams: {
+                id: jobId,
+                letter: this.video.letter
+              }
+            });
+          }
 
-        if (statusResponse.status === 'failed') {
-          clearInterval(intervalId);
-          localStorage.removeItem('job_id');  // удаление при ошибке
+          if (statusResponse.status === 'failed' && statusResponse.error === 'Письмо не прошло фильтрацию') {
+            clearInterval(intervalId);
+            localStorage.removeItem('job_id');
+            this.error = statusResponse.error || 'Письмо не прошло фильтрацию на корректность. Повторите попытку.';
+            this.page = 'error';
+          }
+          if (statusResponse.status === 'failed' && statusResponse.error === 'division by zero') {
+            clearInterval(intervalId);
+            localStorage.removeItem('job_id');
+            this.error = 'Ошибка генерации. Повторите попытку.';
+            this.page = 'error';
+          }
+        },
+        error: (err) => {
+          console.error('Status Error:', err);
+
+          if (err.error?.message) {
+            this.error = err.error.message;
+          } else {
+            this.error = `Ошибка: ${err.status || 'неизвестна'}`;
+          }
+
           this.page = 'error';
+          clearInterval(intervalId);
+          localStorage.removeItem('job_id');
         }
       });
     }, 5000);
